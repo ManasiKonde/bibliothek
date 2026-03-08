@@ -11,7 +11,20 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useColorScheme } from "@/hooks/use-color-scheme";
 import { AuthProvider, useAuth } from "@/src/context/AuthContext";
 import { BookProvider } from "@/src/context/BookContext";
-import { Text, View } from "react-native";
+import { LogBox, Text, View } from "react-native";
+
+// Suppress keep-awake errors from Expo in dev (not supported on all platforms)
+LogBox.ignoreLogs(["Unable to activate keep awake"]);
+if (typeof globalThis !== "undefined") {
+  const onUnhandled = (e: PromiseRejectionEvent) => {
+    const msg = e?.reason?.message ?? e?.reason ?? "";
+    if (String(msg).includes("keep awake")) {
+      e.preventDefault?.();
+      return;
+    }
+  };
+  globalThis.addEventListener?.("unhandledrejection", onUnhandled);
+}
 
 export const unstable_settings = {
   anchor: "(tabs)",
