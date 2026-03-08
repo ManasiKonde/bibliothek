@@ -1,77 +1,68 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import "react-native-reanimated";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import React from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import { AuthProvider, useAuth } from "@/src/context/AuthContext";
-import { BookProvider } from "@/src/context/BookContext";
-import { LogBox, Text, View } from "react-native";
-
-// Suppress keep-awake errors from Expo in dev (not supported on all platforms)
-LogBox.ignoreLogs(["Unable to activate keep awake"]);
-if (typeof globalThis !== "undefined") {
-  const onUnhandled = (e: PromiseRejectionEvent) => {
-    const msg = e?.reason?.message ?? e?.reason ?? "";
-    if (String(msg).includes("keep awake")) {
-      e.preventDefault?.();
-      return;
-    }
-  };
-  globalThis.addEventListener?.("unhandledrejection", onUnhandled);
-}
-
-export const unstable_settings = {
-  anchor: "(tabs)",
-};
-
-function RootNavigator() {
-  const { user, initializing } = useAuth();
-
-  if (initializing) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "#F5F1E8",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
+export default function About() {
+  return (
+    <SafeAreaView style={styles.safe} edges={["top"]}>
+      <ScrollView
+        style={styles.safe}
+        contentContainerStyle={styles.container}
+        showsVerticalScrollIndicator={false}
       >
-        <Text style={{ color: "#0F3D3E", fontWeight: "900" }}>Loading…</Text>
-      </View>
-    );
-  }
+        <Text style={styles.title}>About Bibliothek 📚</Text>
+        <Text style={styles.subtitle}>Where the stories travel.</Text>
 
-  return (
-    <Stack screenOptions={{ headerShown: false }}>
-      {user ? <Stack.Screen name="(tabs)" /> : <Stack.Screen name="(auth)" />}
+        <View style={styles.card}>
+          <Text style={styles.heading}>What is Bibliothek?</Text>
+          <Text style={styles.text}>
+            Bibliothek is a reader-first marketplace where people can buy and
+            sell books with confidence. Listings include real images and honest
+            condition notes so buyers don’t have to “hope” the book is fine —
+            they can actually see it.
+          </Text>
+        </View>
 
-      <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-    </Stack>
+        <View style={styles.card}>
+          <Text style={styles.heading}>Why it exists</Text>
+          <Text style={styles.text}>
+            Existing marketplaces focus on commerce. Bibliothek focuses on trust
+            + community. Every reader can be both a buyer and a seller.
+          </Text>
+        </View>
+
+        <View style={styles.card}>
+          <Text style={styles.heading}>What we care about</Text>
+          <Text style={styles.text}>• Clear photos and transparency</Text>
+          <Text style={styles.text}>• Real condition & feedback</Text>
+          <Text style={styles.text}>• Reader-first UX</Text>
+          <Text style={styles.text}>• Sustainable reuse of books</Text>
+        </View>
+
+        <View style={{ height: 24 }} />
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
+const styles = StyleSheet.create({
+  safe: { flex: 1, backgroundColor: "#F5F1E8" },
+  container: { padding: 20 },
+  title: { fontSize: 26, fontWeight: "900", color: "#0F3D3E" },
+  subtitle: { marginTop: 6, marginBottom: 14, color: "#2E5E4E" },
 
-  return (
-    <SafeAreaProvider>
-      <AuthProvider>
-        <BookProvider>
-          <ThemeProvider
-            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-          >
-            <RootNavigator />
-            <StatusBar style="auto" />
-          </ThemeProvider>
-        </BookProvider>
-      </AuthProvider>
-    </SafeAreaProvider>
-  );
-}
+  card: {
+    backgroundColor: "white",
+    borderRadius: 16,
+    padding: 14,
+    marginBottom: 14,
+    elevation: 3,
+  },
+  heading: {
+    fontSize: 16,
+    fontWeight: "900",
+    color: "#0F3D3E",
+    marginBottom: 8,
+  },
+  text: { color: "#444", lineHeight: 20, marginBottom: 6 },
+});
