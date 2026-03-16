@@ -49,7 +49,7 @@ export default function Terms() {
             You may request a return within 7 days of delivery if the book
             condition does not match the listing (e.g. damage not described,
             wrong edition, or missing pages noted in the listing). To request a
-            return, go to Profile, open "My Orders", and tap "Request return" on
+            return, go to Profile, open &quot;My Orders&quot;, and tap &quot;Request return&quot; on
             the order. The seller may approve or reject the request. If
             approved, you and the seller are responsible for arranging the
             return (shipping, etc.). Bibliothek does not handle refunds or
