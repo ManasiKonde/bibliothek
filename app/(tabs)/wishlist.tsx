@@ -16,7 +16,6 @@ export default function WishlistScreen() {
   const { books, wishlist, clearWishlist } = useBooks();
 
   const savedBooks = useMemo(() => {
-    const set = new Set(wishlist);
     // Keep the wishlist order (newest saved first) by mapping wishlist ids -> books
     return wishlist
       .map((id) => books.find((b) => b.id === id))
@@ -30,7 +29,7 @@ export default function WishlistScreen() {
           <View style={{ flex: 1 }}>
             <Text style={styles.title}>Wishlist</Text>
             <Text style={styles.subtitle}>
-              Saved books you don't wanna lose 💘
+              Saved books you don&apos;t wanna lose 💘
             </Text>
           </View>
 
