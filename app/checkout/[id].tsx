@@ -259,9 +259,9 @@ export default function Checkout() {
                 return;
               }
 
-              let RazorpayCheckout: { open: (opts: unknown) => Promise<{ razorpay_payment_id: string; razorpay_order_id: string }> } | null = null;
+              let RazorpayCheckout = null;
               try {
-                RazorpayCheckout = require("react-native-razorpay").default;
+                RazorpayCheckout = (await import("react-native-razorpay")).default;
               } catch {
                 RazorpayCheckout = null;
               }
