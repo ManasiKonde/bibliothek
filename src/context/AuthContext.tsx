@@ -1,6 +1,6 @@
 import type { User as SupaUser } from "@supabase/supabase-js";
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { registerForPushNotificationsAsync } from "../lib/pushNotifications";
+import * as react from "react";
+import { registerForPushNotificationsAsync } from "../services/notificationService";
 import { supabase } from "../lib/supabaseClient";
 
 export type User = {
@@ -31,7 +31,7 @@ type AuthContextType = {
   updateAddress: (addressLine: string, city: string, pincode: string) => Promise<void>;
 };
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = react.createContext<AuthContextType | undefined>(undefined);
 
 function mapUser(u: SupaUser): User {
   const meta = u.user_metadata as Record<string, unknown> | undefined;
@@ -47,10 +47,10 @@ function mapUser(u: SupaUser): User {
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = react.useState<User | null>(null);
+  const [initializing, setInitializing] = react.useState(true);
 
-  useEffect(() => {
+  react.useEffect(() => {
     let mounted = true;
 
     const init = async () => {
@@ -79,7 +79,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  useEffect(() => {
+  react.useEffect(() => {
     if (user?.id) {
       registerForPushNotificationsAsync(user.id).catch(() => {});
     }
@@ -161,7 +161,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useAuth() {
-  const ctx = useContext(AuthContext);
+  const ctx = react.useContext(AuthContext);
   if (!ctx) throw new Error("useAuth must be used inside AuthProvider");
   return ctx;
 }

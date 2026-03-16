@@ -37,6 +37,9 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "ios": {
+      "bundleIdentifier": "com.anonymous.bibliothek"
     }
   }
 }

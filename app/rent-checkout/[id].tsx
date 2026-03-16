@@ -1,11 +1,11 @@
 import { useAuth } from "@/src/context/AuthContext";
 import { useBooks } from "@/src/context/BookContext";
-import { isPincodeDeliverable } from "@/src/lib/delivery";
+import { isPincodeDeliverable } from "@/src/services/deliveryService";
 import {
   createRazorpayOrderForRental,
   priceToPaise,
   verifyRazorpayRentalAndComplete,
-} from "@/src/lib/payment";
+} from "@/src/services/paymentService";
 import * as Location from "expo-location";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
