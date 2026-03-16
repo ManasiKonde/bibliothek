@@ -56,7 +56,6 @@ export default function RentalDetailScreen() {
   const [rental, setRental] = useState<Rental | null>(null);
   const [loading, setLoading] = useState(true);
   const [transactions, setTransactions] = useState<{ type: string; amount_paise: number; notes: string | null; created_at: string }[]>([]);
-  const [returnImages, setReturnImages] = useState<string[]>([]);
   const [uploading, setUploading] = useState(false);
 
   const load = useCallback(async () => {
@@ -116,14 +115,14 @@ export default function RentalDetailScreen() {
 
   const handleExtend = () => {
     if (EXTENSION_FEE > 0) {
-      createRazorpayOrderAmount(priceToPaise(EXTENSION_FEE), `ext_${rental.id}_${Date.now()}`).then((orderRes) => {
+      createRazorpayOrderAmount(priceToPaise(EXTENSION_FEE), `ext_${rental.id}_${Date.now()}`).then(async (orderRes) => {
         if (!orderRes.ok) {
           Alert.alert("Error", orderRes.error ?? "Could not start payment.");
           return;
         }
-        let RazorpayCheckout: { open: (opts: unknown) => Promise<{ razorpay_payment_id: string; razorpay_order_id: string }> } | null = null;
+        let RazorpayCheckout = null;
         try {
-          RazorpayCheckout = require("react-native-razorpay").default;
+          RazorpayCheckout = (await import("react-native-razorpay")).default;
         } catch {
           RazorpayCheckout = null;
         }
