@@ -37,7 +37,7 @@ export default function ProfileScreen() {
       setAddressCity(user.address_city || "");
       setAddressPincode(user.address_pincode || "");
     }
-  }, [user?.id, user?.name, user?.location, user?.address_line, user?.address_city, user?.address_pincode]);
+  }, [user, user?.id, user?.name, user?.location, user?.address_line, user?.address_city, user?.address_pincode]);
 
   const myListingsCount = useMemo(() => {
     if (!user) return 0;
