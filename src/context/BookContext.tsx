@@ -888,7 +888,7 @@ export function BookProvider({ children }: { children: React.ReactNode }) {
       getRentalTransactions,
       recordRentalViolation,
     }),
-    [books, loading, wishlist]
+    [books, loading, wishlist, addBook, clearAllBooks, deleteBook, getConversations, getMessages, getOrdersForUser, getRentalsForUser, getUnreadCount, isWishlisted, markAsSold, markMessagesAsRead, sendMessage]
   );
 
   return <BookContext.Provider value={value}>{children}</BookContext.Provider>;
