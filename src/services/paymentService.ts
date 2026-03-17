@@ -5,7 +5,7 @@
  */
 
 import type { Book } from "@/src/types/models";
-import { supabase } from "./supabaseClient";
+import { supabase } from "../lib/supabaseClient";
 
 export interface CreateRazorpayOrderResult {
   orderId: string;

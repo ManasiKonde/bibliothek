@@ -15,7 +15,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { createRazorpayOrderAmount, priceToPaise } from "@/src/lib/payment";
+import { createRazorpayOrderAmount, priceToPaise } from "@/src/services/paymentService";
 import { supabase } from "@/src/lib/supabaseClient";
 
 function formatDate(iso: string): string {

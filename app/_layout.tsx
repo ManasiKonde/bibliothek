@@ -9,9 +9,11 @@ import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import { AppFlowProvider } from "@/src/context/AppFlowContext";
 import { AuthProvider, useAuth } from "@/src/context/AuthContext";
 import { BookProvider } from "@/src/context/BookContext";
 import { LogBox, Text, View } from "react-native";
+import React from "react";
 
 // Suppress keep-awake errors from Expo in dev (not supported on all platforms)
 LogBox.ignoreLogs(["Unable to activate keep awake"]);
@@ -27,18 +29,17 @@ if (typeof globalThis !== "undefined") {
 }
 
 export const unstable_settings = {
-  anchor: "(tabs)",
+  anchor: "index",
 };
 
 function RootNavigator() {
-  const { user, initializing } = useAuth();
+  const { initializing } = useAuth();
 
   if (initializing) {
     return (
       <View
         style={{
           flex: 1,
-          backgroundColor: "#F5F1E8",
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -50,8 +51,10 @@ function RootNavigator() {
 
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      {user ? <Stack.Screen name="(tabs)" /> : <Stack.Screen name="(auth)" />}
-
+      <Stack.Screen name="index" />
+      <Stack.Screen name="onboarding" />
+      <Stack.Screen name="(auth)" />
+      <Stack.Screen name="(tabs)" />
       <Stack.Screen name="modal" options={{ presentation: "modal" }} />
     </Stack>
   );
@@ -62,16 +65,18 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <AuthProvider>
-        <BookProvider>
-          <ThemeProvider
-            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-          >
-            <RootNavigator />
-            <StatusBar style="auto" />
-          </ThemeProvider>
-        </BookProvider>
-      </AuthProvider>
+      <AppFlowProvider>
+        <AuthProvider>
+          <BookProvider>
+            <ThemeProvider
+              value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+            >
+              <RootNavigator />
+              <StatusBar style="auto" />
+            </ThemeProvider>
+          </BookProvider>
+        </AuthProvider>
+      </AppFlowProvider>
     </SafeAreaProvider>
   );
 }

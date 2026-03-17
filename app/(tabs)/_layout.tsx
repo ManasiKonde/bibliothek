@@ -1,12 +1,18 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Redirect, Tabs } from "expo-router";
 import React from "react";
+import { useAppFlow } from "@/src/context/AppFlowContext";
 import { useAuth } from "@/src/context/AuthContext";
 
 export default function TabLayout() {
+  const { onboardingComplete, onboardingLoading } = useAppFlow();
   const { user, initializing } = useAuth();
 
-  if (initializing) return null;
+  if (onboardingLoading || initializing) return null;
+
+  if (!onboardingComplete) {
+    return <Redirect href="/onboarding" />;
+  }
 
   if (!user) {
     return <Redirect href="/(auth)/login" />;
